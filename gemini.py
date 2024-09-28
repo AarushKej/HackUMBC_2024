@@ -2,6 +2,7 @@ import google.generativeai as genai
 import os
 import json
 import pyautogui as pg
+import fucntions
 
 api_key = "AIzaSyDj9X15nYR83615JzaRTswdG2LrHZTcfIE"
 genai.configure(api_key=api_key)
@@ -22,28 +23,4 @@ pg.moveTo(XLocPercent * screen_size[0], YLocPercent * screen_size[1])
 
 
 
-def spotlight(app):
-    pg.keyDown('command')
-    pg.press('space')
-    pg.keyUp('command')
-    pg.write(app)    
-    pg.press('enter')
 
-def opentab():
-    pg.keyDown('command')
-    pg.press('t')
-    pg.keyUp('command')
-    
-
-def closetab():
-    pg.keyDown('command')
-    pg.press('w')
-    pg.keyUp('command')
-
-def search(words):
-    pg.write(words)  
-    pg.press('enter')
-
-opentab()
-search("youtube.com")
- 
