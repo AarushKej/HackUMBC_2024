@@ -30,12 +30,20 @@ def spotlight(app):
     pg.press('enter')
 
 def opentab():
-    pass
+    pg.keyDown('command')
+    pg.press('t')
+    pg.keyUp('command')
+    
 
 def closetab():
-    pass
+    pg.keyDown('command')
+    pg.press('w')
+    pg.keyUp('command')
 
+def search(words):
+    pg.write(words)  
+    pg.press('enter')
 
-
-spotlight("chrome")
+opentab()
+search("youtube.com")
  
