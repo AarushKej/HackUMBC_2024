@@ -1,6 +1,6 @@
 import pyautogui as pg
 
-def spotlight(app):
+def openApp(app):
     pg.keyDown('command')
     pg.press('space')
     pg.keyUp('command')
@@ -12,7 +12,6 @@ def opentab():
     pg.press('t')
     pg.keyUp('command')
     
-
 def closetab():
     pg.keyDown('command')
     pg.press('w')
@@ -21,3 +20,4 @@ def closetab():
 def search(words):
     pg.write(words)  
     pg.press('enter')
+    
