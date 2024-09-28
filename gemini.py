@@ -18,4 +18,24 @@ XLocPercent = int(actions[0]['locationX'].split("%")[0]) / 100
 YLocPercent = int(actions[0]['locationY'].split("%")[0]) / 100
 print(XLocPercent, YLocPercent)
 screen_size = pg.size()
-pg.moveTo(XLocPercent * screen_size[0], YLocPercent * screen_size[1])
+pg.moveTo(XLocPercent * screen_size[0], YLocPercent * screen_size[1]) 
+
+
+
+def spotlight(app):
+    pg.keyDown('command')
+    pg.press('space')
+    pg.keyUp('command')
+    pg.write(app)    
+    pg.press('enter')
+
+def opentab():
+    pass
+
+def closetab():
+    pass
+
+
+
+spotlight("chrome")
+ 
