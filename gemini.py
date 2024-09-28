@@ -1,9 +1,11 @@
-from gemini import Gemini
-
-client = Gemini(auto_cookies=True)
-
-api_key = "AIzaSyDj9X15nYR83615JzaRTswdG2LrHZTcfIE"
+import google.generativeai as genai
 
 
-response = client.generate_content("Hello, Gemini. What's the weather like in Seoul today?")
-print(response.payload)
+API_KEY= "AIzaSyDj9X15nYR83615JzaRTswdG2LrHZTcfIE"
+
+genai.configure(api_key=API_KEY)
+
+
+model = genai.GenerativeModel("gemini-1.5-flash")
+response = model.generate_content("Write a story about a magic backpack.")
+print(response.text)
