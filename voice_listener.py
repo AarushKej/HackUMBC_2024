@@ -13,7 +13,8 @@ activated = False
 command = ""
 while running: 
     with sr.Microphone() as source:
-        audio_text = r.listen(source)
+        if not activated: audio_text = r.listen(source, 3, 2)
+        else: audio_text = r.listen(source, 8, 3)
         try:
             query = r.recognize_google(audio_text)
             if (activated):
