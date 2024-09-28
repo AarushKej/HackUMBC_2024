@@ -25,4 +25,10 @@ print(XLocPercent, YLocPercent)
 screen_size = pg.size()
 pg.moveTo(XLocPercent * screen_size[0], YLocPercent * screen_size[1]) 
 
+def askQuestion(command):
+    model = genai.GenerativeModel("gemini-1.5-flash")
+    result = model.generate_content( command)
+
+    return result.text
+
 
