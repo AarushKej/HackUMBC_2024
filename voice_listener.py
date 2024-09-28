@@ -1,8 +1,13 @@
 import speech_recognition as sr
 import pygame
+<<<<<<< Updated upstream
 from gtts import gTTS
 import os
 import gemini
+=======
+from geminiAPI import doShit
+from screen_recorder import ss
+>>>>>>> Stashed changes
 
 pygame.init()
 
@@ -31,16 +36,17 @@ def text_to_speech(text, language='en'):
 
 while running: 
     with sr.Microphone() as source:
-        if not activated: audio_text = r.listen(source, 3, 2)
-        else: audio_text = r.listen(source, 8, 3)
+        if not activated: audio_text = r.listen(source, 3, 1)
+        else: audio_text = r.listen(source, 6, 4)
         try:
             query = r.recognize_google(audio_text)
             if (activated):
                 command = query
                 activated = False
             else: command = ""
-            if ('Jarvis' in query or 'jarvis' in query):
+            if ('Alex' in query or 'Alex' in query):
                 activated = True
+                ss()
                 pygame.mixer.music.load("JARVIS_Awake.wav")
                 pygame.mixer.music.play()
                 pygame.event.wait()
@@ -52,5 +58,11 @@ while running:
 
         if command != "": 
             print(command)
+<<<<<<< Updated upstream
             text_to_speech(gemini.askQuestion(command))
 
+=======
+            doShit(command)
+            command = ""
+            activated = False
+>>>>>>> Stashed changes
