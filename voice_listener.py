@@ -1,13 +1,10 @@
 import speech_recognition as sr
 import pygame
-<<<<<<< Updated upstream
 from gtts import gTTS
 import os
 import gemini
-=======
 from geminiAPI import doShit
 from screen_recorder import ss
->>>>>>> Stashed changes
 
 pygame.init()
 
@@ -58,11 +55,6 @@ while running:
 
         if command != "": 
             print(command)
-<<<<<<< Updated upstream
-            text_to_speech(gemini.askQuestion(command))
-
-=======
             doShit(command)
             command = ""
             activated = False
->>>>>>> Stashed changes
