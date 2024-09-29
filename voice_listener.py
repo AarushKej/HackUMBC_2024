@@ -4,7 +4,7 @@ from gtts import gTTS
 import os
 from geminiAPI import doShit
 from screen_recorder import ss
-
+import subprocess
 pygame.init()
 
 
@@ -15,6 +15,9 @@ def text_to_speech(text, language='en'):
     # os.system("mpg321 output.mp3")  # For Linux
     os.system("afplay output.mp3")
 
+def send_mac_notification(title, message):
+    script = f'display notification "{message}" with title "{title}"'
+    subprocess.run(["osascript", "-e", script])
 
 def listen_for_keyword():
     recognizer = sr.Recognizer()
@@ -33,6 +36,7 @@ def listen_for_keyword():
 
                 if "friday" or "Friday" in speech_text:
                     print("Keyword 'jarvis' detected! Playing sound...")
+                    send_mac_notification("FRIDAY", "at your")
                     pygame.mixer.music.load("JARVIS_Awake.wav")
                     pygame.mixer.music.play()
                     text_to_speech("executing now")
