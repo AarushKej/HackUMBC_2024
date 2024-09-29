@@ -24,7 +24,7 @@ def listen_for_keyword():
     microphone = sr.Microphone()
 
     while True:
-        print("Listening for the keyword 'Alexa'...")
+        print("Listening for the keyword 'Friday'...")
 
         with microphone as source:
             recognizer.adjust_for_ambient_noise(source)
@@ -33,39 +33,43 @@ def listen_for_keyword():
             try:
                 speech_text = recognizer.recognize_google(audio).lower()
                 print(f"You said: {speech_text}")
+                word = "friday"
+                string = str(speech_text)
 
-                if "friday" or "Friday" in speech_text:
-                    print("Keyword 'jarvis' detected! Playing sound...")
-                    send_mac_notification("FRIDAY", "at your")
+                if word.lower() in string.lower():
+                    send_mac_notification("FRIDAY", "at your service")
                     pygame.mixer.music.load("JARVIS_Awake.wav")
                     pygame.mixer.music.play()
                     text_to_speech("executing now")
                     ss()
                     doShit(speech_text)
+                else:
+                    print("no friday detected")
             except sr.UnknownValueError:
                 print("Could not understand the audio.")
             except sr.RequestError as e:
                 print(f"Error with the speech recognition service: {e}")
 
-def listen_for_command(recognizer, microphone):
-    recognizer.adjust_for_ambient_noise(microphone)
-    audio = recognizer.listen(microphone)
-    print("Listening for the command...")
-    pygame.mixer.music.load("JARVIS_Awake.wav")
-    pygame.mixer.music.play()
-    text_to_speech("talk now")
-    try:
-        command = recognizer.recognize_google(audio).lower()
-        print(f"Command received: {command}")
-        print(command)
-        doShit(command)
-        print(f"Executing command: {command}")
 
-    except sr.UnknownValueError:
-        print("Could not understand the command.")
-        text_to_speech("try again")
-    except sr.RequestError as e:
-        print(f"Error with the speech recognition service: {e}")
+# def listen_for_command(recognizer, microphone):
+#     recognizer.adjust_for_ambient_noise(microphone)
+#     audio = recognizer.listen(microphone)
+#     print("Listening for the command...")
+#     pygame.mixer.music.load("JARVIS_Awake.wav")
+#     pygame.mixer.music.play()
+#     text_to_speech("talk now")
+#     try:
+#         command = recognizer.recognize_google(audio).lower()
+#         print(f"Command received: {command}")
+#         print(command)
+#         doShit(command)
+#         print(f"Executing command: {command}")
+
+#     except sr.UnknownValueError:
+#         print("Could not understand the command.")
+#         text_to_speech("try again")
+#     except sr.RequestError as e:
+#         print(f"Error with the speech recognition service: {e}")
 
 
 listen_for_keyword()

@@ -35,4 +35,5 @@ def search(words):
     pg.write(words)  
     pg.press('enter')
     
-# openApp("Google Chrome")
+def press(key):
+    pg.press(str(key))
