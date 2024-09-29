@@ -3,7 +3,7 @@ import os
 import json
 import pyautogui as pg
 import cv2
-from functions import openApp
+from functions import openApp, search, opentab, closetab
 
 
 def doShit(command):
@@ -21,13 +21,14 @@ def doShit(command):
     while not valid:
         try:
             result = model.generate_content(
-                [myfile, "\n\n", "From this image of a Mac computer's screen which is of this size" + str((width, height)) + "; perform the task in this command: "+ command +" ; I want you to respond with only a list of the commands and each step should be in a dictionary. For example, if the command was to open the Chrome app, you should return something like this: [{\"action\": \"click\", \"locationX\": \"45%\", \"locationY\": \"98%\"}] ; for actions you can use one of the following: 'click', 'type', 'right-click', 'double-click'. Also ensure that your response has nothing other than the JSON response, I should be able to take your response directly and convert it into a JSON without having to perform any other format modifications. Double check to ensure that the coordinates you give are correct as well, an error would result in the wrong app being opened. Also remember that the origin of the screen is the top left corner. Also ensure that the coordinates are percentages of the total screen size and not pixle values. Ensure coordinates are accurate for clicking the correct icon. Also ensure that there are no redundant or unneeded steps. Also ensure this error does not arise: Expecting value: line 1 column 1 (char 0). Make sure the percentages are between 0 and 100%. If the command is to open an app, do not worry about the mouse position or anything, but worry about the name of the application. You should return something like this in that case: {\"action\": \"open\", \"app\": \"APPNAME\"}."]
+                [myfile, "\n\n", "From this image of a Mac computer's screen which is of this size" + str((width, height)) + "; perform the task in this command: "+ command +" ; I want you to respond with only a list of the commands and each step should be in a dictionary. For example, if the command was to open the Chrome app, you should return something like this: [{\"action\": \"click\", \"locationX\": \"45%\", \"locationY\": \"98%\"}] ; for actions you can use one of the following: 'click', 'type', 'right-click', 'double-click'. Also ensure that your response has nothing other than the JSON response, I should be able to take your response directly and convert it into a JSON without having to perform any other format modifications. Double check to ensure that the coordinates you give are correct as well, an error would result in the wrong app being opened. Also remember that the origin of the screen is the top left corner. Also ensure that the coordinates are percentages of the total screen size and not pixle values. Ensure coordinates are accurate for clicking the correct icon. Also ensure that there are no redundant or unneeded steps. Also ensure this error does not arise: Expecting value: line 1 column 1 (char 0). Make sure the percentages are between 0 and 100%. If the command is to open an app, do not worry about the mouse position or anything, but worry about the name of the application. You should return something like this in that case: {\"action\": \"open\", \"app\": \"APPNAME\"}. If the command is to search something up, do not worry about the mouse position or the app name or anything, but worry about the name of the search. You should return something like this in that case: {\"action\": \"search\", \"search\": \"SEATCHTITLE\"}."]
             )
             actions = json.loads(result.text)
             print(result.text)
             if float(actions[0]['locationX'].split("%")[0]) < 100 and float(actions[0]['locationY'].split("%")[0]) < 100: valid = True
         except: 
             if actions[0]['action'] == "open": valid = True
+            if actions[0]['action'] == "search": valid = True
     leftX = 0
     rightX = 0
     topY = 0
@@ -44,6 +45,9 @@ def doShit(command):
         if bottomY > height: bottomY = height
     elif actions[0]['action'] == "open":
         openApp(actions[0]['app'])
+    elif actions[0]['action'] == "search":
+        opentab()
+        search(actions[0]['search'])
 
     # Read the original image
 
