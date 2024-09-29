@@ -30,7 +30,7 @@ def listen_for_keyword():
                 speech_text = recognizer.recognize_google(audio).lower()
                 print(f"You said: {speech_text}")
 
-                if "jarvis" or "Jarvis" in speech_text:
+                if "alex" in speech_text:
                     print("Keyword 'Alexa' detected! Playing sound...")
                     ss()
                     pygame.mixer.music.load("JARVIS_Awake.wav")
