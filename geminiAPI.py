@@ -7,7 +7,7 @@ from functions import openApp, search, opentab, closetab, ask, press
 
 
 def doShit(command):
-    api_key = "AIzaSyA2M7JcwXPJV_jHfauEzi0a8UawxHso2pM"
+    api_key = "AIzaSyBOUmWghCCTw7qJ_OBEYcPaptVZSFQffbI"
     genai.configure(api_key=api_key)
 
     screen_size = pg.size()
@@ -15,7 +15,7 @@ def doShit(command):
     height, width = image.shape[:2]
 
     myfile = genai.upload_file("screen.png")
-
+    print("STARTED")
     generation_config = {
         "temperature": 0,
         "top_p": 0.95,
@@ -46,25 +46,36 @@ def doShit(command):
         model_name="gemini-1.5-pro"
         )
     valid = False
+    print("WHILE")
     while not valid:
-        try:
-            result = model.generate_content(
+        result = model.generate_content(
                 [myfile, "\n\n", "From this image of a Mac computer's screen which is of this size" + str((width, height)) + "; perform the task in this command: "+ command +" ; I want you to respond with only a list of the commands and each step should be in a dictionary. For example, if the command was to open the Chrome app, you should return something like this: [{\"action\": \"click\", \"locationX\": \"45%\", \"locationY\": \"98%\"}]. Also ensure that your response has nothing other than the JSON response, I should be able to take your response directly and convert it into a JSON without having to perform any other format modifications. Double check to ensure that the coordinates you give are correct as well, an error would result in the wrong app being opened. Also remember that the origin of the screen is the top left corner. Also ensure that the coordinates are percentages of the total screen size and not pixle values. Ensure coordinates are accurate for clicking the correct icon. Also ensure that there are no redundant or unneeded steps. Also ensure this error does not arise: Expecting value: line 1 column 1 (char 0). Make sure the percentages are between 0 and 100%. If the command is to open an app, do not worry about the mouse position or anything, but worry about the name of the application. You should return something like this in that case: {\"action\": \"open\", \"app\": \"APPNAME\"}. If the command is to search something up, do not worry about the mouse position or the app name or anything, but worry about the name of the search. You should return something like this in that case: {\"action\": \"search\", \"search\": \"SEATCHTITLE\"}. If the command is a question forget everything no mouse no app no search and return the answer. Something like this.{\"action\": \"question\", \"question\": \"ANSWER\"} I]. If the action is close tab forget about everything else and only return something like this You should return something like this in that case: {\"action\": \"close tab\", \"close tab\": \"true\"}. if the command is to press a certain keybord determine which key it is between the options that pyautogui allows you to use You should return something like this in that case: {\"action\": \"press\", \"press\": \"KEY TO PRESS\"}. Make sure you differenciate between a question and a command. dont make questiosn into type responses. if the command starts with what is or who is or when was or how is or any sort of question word return type question. of the command begins with open make sure to return type open if the command starts with search or search up make sure to return type search. never use return type of type unless the command says type this. Make sure you look at the whole command and dont infer whaat you want it to do. Only base the command off of what is said"]
             )
-
-            actions = json.loads(result.text)
+        try:
             print(result.text)
+            actions = json.loads(result.text)
             if float(actions[0]['locationX'].split("%")[0]) < 100 and float(actions[0]['locationY'].split("%")[0]) < 100: valid = True
         except:
-            try: 
+            try:
+                print("TRY")
                 if actions[0]['action'] == "open": valid = True
-                if actions[0]['action'] == "search": valid = True
-                if actions[0]['action'] == "question": valid = True
-                if actions[0]['action'] == "type": valid = True
-                if actions[0]['action'] == "close tab": valid = True
-                if actions[0]['action'] == "press": valid = True
-
-            except: pass
+                elif actions[0]['action'] == "search": valid = True
+                elif actions[0]['action'] == "question": valid = True
+                elif actions[0]['action'] == "type": valid = True
+                elif actions[0]['action'] == "close tab": valid = True
+                elif actions[0]['action'] == "press": valid = True
+                elif float(actions[0]['locationX'].split("%")[0]) < 100 and float(actions[0]['locationY'].split("%")[0]) < 100: valid = True
+            except:
+                try: 
+                    actions = json.loads(result.text.split('\n')[1])
+                    if actions[0]['action'] == "open": valid = True
+                    elif actions[0]['action'] == "search": valid = True
+                    elif actions[0]['action'] == "question": valid = True
+                    elif actions[0]['action'] == "type": valid = True
+                    elif actions[0]['action'] == "close tab": valid = True
+                    elif actions[0]['action'] == "press": valid = True
+                    elif float(actions[0]['locationX'].split("%")[0]) < 100 and float(actions[0]['locationY'].split("%")[0]) < 100: valid = True
+                except: pass
     leftX = 0
     rightX = 0
     topY = 0
@@ -141,5 +152,5 @@ def doShit(command):
         Ypos = Yperc * int(screen_size[1])
 
 
-        pg.click(Xpos, Ypos + 20)
+        pg.click(Xpos, Ypos + 25)
 

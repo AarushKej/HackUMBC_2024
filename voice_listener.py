@@ -30,29 +30,31 @@ def listen_for_keyword():
     while True:
         print("Listening for the keyword 'Friday'...")
 
-        with microphone as source:
-            recognizer.adjust_for_ambient_noise(source)
-            audio = recognizer.listen(source,0,4)
+        try:
+            with microphone as source:
+                recognizer.adjust_for_ambient_noise(source)
+                audio = recognizer.listen(source,4,4)
 
-            try:
-                speech_text = recognizer.recognize_google(audio).lower()
-                print(f"You said: {speech_text}")
-                word = "friday"
-                string = str(speech_text)
+                try:
+                    speech_text = recognizer.recognize_google(audio).lower()
+                    print(f"You said: {speech_text}")
+                    word = "friday"
+                    string = str(speech_text)
 
-                if is_close_match("friday", speech_text):
-                    send_mac_notification("FRIDAY", "at your service")
-                    pygame.mixer.music.load("JARVIS_Awake.wav")
-                    pygame.mixer.music.play()
-                    text_to_speech("executing now")
-                    ss()
-                    doShit(speech_text)
-                else:
-                    print("no friday detected")
-            except sr.UnknownValueError:
-                print("Could not understand the audio.")
-            except sr.RequestError as e:
-                print(f"Error with the speech recognition service: {e}")
+                    if is_close_match("friday", speech_text):
+                        send_mac_notification("FRIDAY", "at your service")
+                        pygame.mixer.music.load("JARVIS_Awake.wav")
+                        pygame.mixer.music.play()
+                        text_to_speech("executing now")
+                        ss()
+                        doShit(speech_text)
+                    else:
+                        print("no friday detected")
+                except sr.UnknownValueError:
+                    print("Could not understand the audio.")
+                except sr.RequestError as e:
+                    print(f"Error with the speech recognition service: {e}")
+        except sr.exceptions.WaitTimeoutError: pass
 
 
 # def listen_for_command(recognizer, microphone):
