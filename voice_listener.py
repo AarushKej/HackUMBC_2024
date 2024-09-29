@@ -6,7 +6,7 @@ from geminiAPI import doShit
 from screen_recorder import ss
 import subprocess
 pygame.init()
-
+from fuzzywuzzy import fuzz
 
 def text_to_speech(text, language='en'):
     tts = gTTS(text=text, lang=language, slow=False)
@@ -14,6 +14,10 @@ def text_to_speech(text, language='en'):
     #os.system("start output.mp3")  # For Windows
     # os.system("mpg321 output.mp3")  # For Linux
     os.system("afplay output.mp3")
+
+def is_close_match(keyword, phrase, threshold=20):
+    match_ratio = fuzz.ratio(keyword.lower(), phrase.lower())
+    return match_ratio >= threshold
 
 def send_mac_notification(title, message):
     script = f'display notification "{message}" with title "{title}"'
@@ -36,7 +40,7 @@ def listen_for_keyword():
                 word = "friday"
                 string = str(speech_text)
 
-                if word.lower() in string.lower():
+                if is_close_match("friday", speech_text):
                     send_mac_notification("FRIDAY", "at your service")
                     pygame.mixer.music.load("JARVIS_Awake.wav")
                     pygame.mixer.music.play()
