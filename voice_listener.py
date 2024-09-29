@@ -26,7 +26,7 @@ def text_to_speech(text, language='en'):
     tts.save("output.mp3")
     
     # Play the audio file
-    #os.system("output.mp3")  # For Windows
+    #os.system("start output.mp3")  # For Windows
     # os.system("mpg321 output.mp3")  # For Linux
     os.system("afplay output.mp3")  # For macOS
 
