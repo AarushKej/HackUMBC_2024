@@ -2,7 +2,6 @@ import speech_recognition as sr
 import pygame
 from gtts import gTTS
 import os
-import gemini
 from geminiAPI import doShit
 from screen_recorder import ss
 
@@ -50,7 +49,6 @@ while running:
                 text_to_speech("talk now")
                 print("TALK")
         except:
-            text_to_speech("Sorry, I did not get that")
             print("Sorry, I did not get that")
 
         if command != "": 
